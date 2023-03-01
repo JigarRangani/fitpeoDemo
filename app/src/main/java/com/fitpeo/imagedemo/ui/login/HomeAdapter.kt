@@ -12,6 +12,8 @@ class HomeAdapter : RecyclerView.Adapter<HomeViewHolder>() {
 
     var data: MutableList<ImageDataResponseItem>? = arrayListOf()
 
+    lateinit var homeContracts: HomeContracts
+
     fun updateItems(newItems: List<ImageDataResponseItem>?) {
         val oldItems = ArrayList(this.data!!)
         this.data!!.clear()
@@ -45,7 +47,7 @@ class HomeAdapter : RecyclerView.Adapter<HomeViewHolder>() {
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         data?.get(position)?.let {
-            holder.setData(it)
+            holder.setData(it,homeContracts)
         }
     }
 

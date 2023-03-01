@@ -9,6 +9,8 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.fitpeo.imagedemo.base.BaseActivity
 import com.fitpeo.imagedemo.databinding.ActivityHomeBinding
+import com.fitpeo.imagedemo.ui.detail.DetailActivity
+import com.fitpeo.imagedemo.utils.Constants
 import com.fitpeo.imagedemo.utils.Resource
 import com.fitpeo.imagedemo.utils.makeGone
 import com.fitpeo.imagedemo.utils.makeVisible
@@ -74,6 +76,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(), HomeCon
     @Override
     override fun setUpView() {
         binding.rvHome.adapter = adapter
+        adapter.homeContracts = this
+    }
+
+    override fun onImageItemClick(imageDataResponseItem: ImageDataResponseItem) {
+        startActivity(DetailActivity.getIntent(this).putExtra(Constants.DATA,imageDataResponseItem))
     }
 
     @Override
