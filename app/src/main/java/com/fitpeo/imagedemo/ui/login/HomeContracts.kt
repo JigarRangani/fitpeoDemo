@@ -7,4 +7,5 @@ interface HomeContracts : ViewInteractor {
     fun finishScreen()
     fun setData()
     fun setUpView()
+    fun onImageItemClick(imageDataResponseItem: ImageDataResponseItem)
 }

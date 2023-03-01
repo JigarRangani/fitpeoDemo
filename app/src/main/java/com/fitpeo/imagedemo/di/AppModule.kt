@@ -30,7 +30,7 @@ import kotlin.jvm.Throws
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    val BASE_URL = "http://192.168.29.67:3000"
+    val BASE_URL = "https://jsonplaceholder.typicode.com"
     @Singleton
     @Provides
     fun provideRetrofit(gson: Gson): Retrofit {

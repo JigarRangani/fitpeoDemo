@@ -25,4 +25,6 @@ constructor(
         viewInteractor?.finishScreen()
     }
 
+    fun getPhoto():LiveData<Resource<ImageDataResponse>> = apiRepository.getPhoto()
+
 }

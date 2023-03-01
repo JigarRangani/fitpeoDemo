@@ -3,10 +3,15 @@ package com.fitpeo.imagedemo.ui.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import com.fitpeo.imagedemo.base.BaseActivity
-import com.valora.tradecall.databinding.ActivityHomeBinding
+import com.fitpeo.imagedemo.databinding.ActivityHomeBinding
+import com.fitpeo.imagedemo.utils.Resource
+import com.fitpeo.imagedemo.utils.makeGone
+import com.fitpeo.imagedemo.utils.makeVisible
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,6 +22,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(), HomeCon
             return Intent(context, HomeActivity::class.java)
         }
     }
+
+    val adapter = HomeAdapter()
 
     @Override
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,12 +41,39 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(), HomeCon
 
     @Override
     override fun setUpObserver() {
+        Log.e("HomeActivity","calling appi")
+        viewModel.getPhoto().observe(this, Observer {
+                    when (it.status) {
+                        Resource.Status.SUCCESS -> {
+                            hideLoading()
+                            it.data?.let {
+                                imageDataResponse ->
+                                adapter.updateItems(imageDataResponse)
+                            }
+                        }
 
+                        Resource.Status.ERROR -> {
+                            hideLoading()
+                        }
+
+                        Resource.Status.LOADING -> {
+                            showLoading()
+                        }
+                    }
+                })
+    }
+
+    private fun showLoading() {
+        binding.progressBar.makeVisible()
+    }
+
+    private fun hideLoading() {
+        binding.progressBar.makeGone()
     }
 
     @Override
     override fun setUpView() {
-
+        binding.rvHome.adapter = adapter
     }
 
     @Override
